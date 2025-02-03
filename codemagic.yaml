@@ -10,10 +10,6 @@ workflows:
       groups:
         - google_play # For publishing to Google Play
         - app_store   # For publishing to the App Store
-      cache:
-        - ~/.npm
-        - ~/.expo/cache
-        - ~/.expo-cli
 
     scripts:
       - name: Install dependencies
