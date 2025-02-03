@@ -5,7 +5,7 @@ workflows:
     environment:
       vars:
         EXPO_SDK_VERSION: "latest" # Change to your Expo SDK version if needed
-        EXPO_TOKEN: "owPt2rj62uNyHvqNU9L3O53OMT524NjXlxUT89AS" # Inserted your token here (not recommended for security)
+        EXPO_TOKEN: "your-token-here" # Do NOT hardcode in a real project, set in Codemagic environment variables
       node: latest
       npm: latest
       groups:
@@ -18,6 +18,25 @@ workflows:
 
       - name: Install EAS CLI
         script: npm install -g eas-cli
+
+      - name: Set appVersionSource in eas.json
+        script: |
+          echo '{
+            "cli": {
+              "appVersionSource": "remote"
+            },
+            "build": {
+              "production": {
+                "distribution": "store",
+                "android": {
+                  "buildType": "app-bundle"
+                },
+                "ios": {
+                  "simulator": false
+                }
+              }
+            }
+          }' > eas.json
 
       - name: Authenticate with Expo
         script: |
