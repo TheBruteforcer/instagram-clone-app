@@ -5,6 +5,7 @@ workflows:
     environment:
       vars:
         EXPO_SDK_VERSION: "latest" # Change to your Expo SDK version if needed
+        EXPO_TOKEN: "owPt2rj62uNyHvqNU9L3O53OMT524NjXlxUT89AS" # Inserted your token here (not recommended for security)
       node: latest
       npm: latest
       groups:
@@ -18,10 +19,13 @@ workflows:
       - name: Install EAS CLI
         script: npm install -g eas-cli
 
-      - name: Login to Expo (optional)
+      - name: Authenticate with Expo
         script: |
           if [ -n "$EXPO_TOKEN" ]; then
-            npx expo login --non-interactive --username "$EXPO_USERNAME" --password "$EXPO_PASSWORD"
+            echo "Using EXPO_TOKEN for authentication."
+          else
+            echo "EXPO_TOKEN is missing. Please set it in Codemagic environment variables."
+            exit 1
           fi
 
       - name: Build Android APK/AAB
