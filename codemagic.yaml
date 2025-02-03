@@ -1,20 +1,19 @@
 workflows:
   expo-app:
     name: Expo App Build
+    max_build_duration: 120
     environment:
       vars:
-        EXPO_SDK_VERSION: "latest" # Change this to your Expo SDK version if needed
-        EXPO_APP_JSON: "./app.json" # Path to app.json
+        EXPO_SDK_VERSION: "latest" # Change to your Expo SDK version if needed
       node: latest
       npm: latest
       groups:
-        - google_play # Needed if you want to upload to Google Play
-        - app_store   # Needed if you want to upload to App Store
+        - google_play # For publishing to Google Play
+        - app_store   # For publishing to the App Store
       cache:
-        paths:
-          - ~/.npm
-          - ~/.expo/cache
-          - ~/.expo-cli
+        - ~/.npm
+        - ~/.expo/cache
+        - ~/.expo-cli
 
     scripts:
       - name: Install dependencies
@@ -27,10 +26,10 @@ workflows:
           fi
 
       - name: Build Android APK/AAB
-        script: npx expo export && eas build --platform android --profile production --non-interactive
+        script: eas build --platform android --profile production --non-interactive
 
       - name: Build iOS App
-        script: npx expo export && eas build --platform ios --profile production --non-interactive
+        script: eas build --platform ios --profile production --non-interactive
 
     artifacts:
       - build/**/*.apk
@@ -41,14 +40,3 @@ workflows:
       email:
         recipients:
           - "your-email@example.com"
-      expo:
-        app: "$EXPO_APP_JSON"
-        project_root: "./"
-
-      google_play: # Uncomment if you want to upload to Google Play
-        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: internal
-
-      app_store: # Uncomment if you want to upload to the App Store
-        credentials: $APP_STORE_CONNECT_KEY
-        submit_to_testflight: true
