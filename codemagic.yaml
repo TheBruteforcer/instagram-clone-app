@@ -5,7 +5,7 @@ workflows:
     environment:
       vars:
         EXPO_SDK_VERSION: "latest" # Change to your Expo SDK version if needed
-        EXPO_TOKEN: "your-token-here" # Do NOT hardcode in a real project, set in Codemagic environment variables
+        EXPO_TOKEN: "owPt2rj62uNyHvqNU9L3O53OMT524NjXlxUT89AS" # Do NOT hardcode in a real project, set in Codemagic environment variables
       node: latest
       npm: latest
       groups:
